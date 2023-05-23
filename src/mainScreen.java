@@ -8,18 +8,35 @@ public class mainScreen extends JFrame{
     public mainScreen(){
         setTitle("Flappy Bird");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);//창의 크기 변경을 불가능하게 함
+        setLocationRelativeTo(null);//창이 가운데 나게함
         Container c = getContentPane();
+
+        ImageIcon startIcon = new ImageIcon("resource/Images/ButtonImage/startButton.png");
+        ImageIcon scoreIcon = new ImageIcon("resource/Images/ButtonImage/scoreButton.png");
+
 
         c.setLayout(null);
 
-        JButton jb = new JButton("test");
-        JButton jb2 = new JButton("test2");
-        jb.setLocation(200, 300);
-        jb.setLocation(300, 300);
-        c.add(jb);
-        c.add(jb2);
+        JButton startB = new JButton(startIcon);
+        JButton scoreB = new JButton(scoreIcon);
+        // 이미지만 나오도록 버튼을 투명하게 설정
+        startB.setBorderPainted(false);
+        scoreB.setBorderPainted(false);
+        startB.setContentAreaFilled(false);
+        scoreB.setContentAreaFilled(false);
+        startB.setFocusPainted(false);
+        scoreB.setFocusPainted(false);
 
-        setSize(400, 600);
+        //이미지 형식에 맞게 설정
+        startB.setSize(52,29);
+        scoreB.setSize(52,29);
+        startB.setLocation(70, 120);
+        scoreB.setLocation(150, 120);
+        c.add(startB);
+        c.add(scoreB);
+
+        setSize(288, 255);
         setVisible(true);
     }
 
