@@ -1,6 +1,7 @@
 /*
- * @todo 메인 화면 버튼으로 플레이화면, 점수화면 접근 구현
- * @todo 배경구현
+ *
+ * @todo 스코어 화면 기능 폐기, 최고 점수 한개만 playScreen에 출력예정
+ * @todo 폐기된 기능에 따라 버튼 수정, 프레임 size 크기 변경에 따른 스프라이트 위치 수정, ImageIcon -> Image로 수정
  * */
 import javax.swing.*;
 import java.awt.*;
@@ -8,10 +9,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class mainScreen extends JFrame{
-    ImageIcon startIcon = new ImageIcon("resource/Images/ButtonImages/startButton.png");
-    ImageIcon scoreIcon = new ImageIcon("resource/Images/ButtonImages/scoreButton.png");
-    ImageIcon backgroundIcon = new ImageIcon("resource/Images/BackGround.png");
-    ImageIcon TitleIcon = new ImageIcon("resource/Images/TitleImage/FlappyBirdTitle.png");
+    Toolkit imageTool = Toolkit.getDefaultToolkit();
+    ImageIcon startButtonImage = new ImageIcon("resource/Images/ButtonImages/startButton.png");
+    Image backgroundImage = imageTool.getImage("resource/Images/BackGround.png");
+    Image TitleImage = imageTool.getImage("resource/Images/TitleImage/FlappyBirdTitle.png");
+
     JPanel panel = new DrawBackground();
     public mainScreen(){
         setTitle("Flappy Bird");
@@ -21,28 +23,16 @@ public class mainScreen extends JFrame{
         Container c = getContentPane();
         c.setLayout(null);
 
-        JButton startB = new JButton(startIcon);
-        JButton scoreB = new JButton(scoreIcon);
+        JButton startB = new JButton(startButtonImage);
         // 이미지만 나오도록 버튼을 투명하게 설정
         startB.setBorderPainted(false);
-        scoreB.setBorderPainted(false);
         startB.setContentAreaFilled(false);
-        scoreB.setContentAreaFilled(false);
         startB.setFocusPainted(false);
-        scoreB.setFocusPainted(false);
 
         //이미지 형식에 맞게 설정
         startB.setSize(52,29);
-        scoreB.setSize(52,29);
-        startB.setLocation(70, 310);
-        scoreB.setLocation(150, 310);
+        startB.setLocation(40, 140);
         startB.addMouseListener(new MouseAdapter() {//게임화면으로 바꾸기
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-            }
-        });
-        scoreB.addMouseListener(new MouseAdapter() {//점수 화면으로 바꾸기
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
@@ -50,20 +40,15 @@ public class mainScreen extends JFrame{
         });
 
         c.add(startB);
-        c.add(scoreB);
 
         setSize(144, 256);
         setVisible(true);
     }
     public class DrawBackground extends JPanel{
         public void paintComponent(Graphics g){
-            g.drawImage(backgroundIcon.getImage(),0,0,this);
-            g.drawImage(TitleIcon.getImage(), 92,100,this);
+            g.drawImage(backgroundImage,0,0,this);
+            g.drawImage(TitleImage, 22,50,this);
         }
-    }
-
-    class playSound extends Thread{
-
     }
 }
 
