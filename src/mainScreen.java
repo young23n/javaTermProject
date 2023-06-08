@@ -1,7 +1,6 @@
 /*
  *
- * @todo 스코어 화면 기능 폐기, 최고 점수 한개만 playScreen에 출력예정
- * @todo 폐기된 기능에 따라 버튼 수정, 프레임 size 크기 변경에 따른 스프라이트 위치 수정, ImageIcon -> Image로 수정
+ * @todo 메인 화면에서 버튼으로 플레이 화면으로 이동할 수 있도록 버튼기능 구현(임시)
  * */
 import javax.swing.*;
 import java.awt.*;
@@ -35,7 +34,8 @@ public class mainScreen extends JFrame{
         startB.addMouseListener(new MouseAdapter() {//게임화면으로 바꾸기
             @Override
             public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
+                playScreen play = new playScreen();
+                setVisible(false);// 나중에 완전 종료 or 다시 시작 구현시 복구용으로 사용
             }
         });
 

@@ -1,8 +1,5 @@
 /*
- * @todo 파이프 출력 후 상태확인 -> pipe 스프라이트를 3가지 형태에 맞게 추가 ,수정
- * @todo 62 line : gameObject에서 변경되는 x값을 실시간으로 가져와서 그리는 기능 구현
- * @todo gameOver 후 프로그램 종료로 방향성 수정
- * @todo 장애물 재배치 및 랜덤 형성 구현
+ * @todo 점수 이미지 추가, 점수 증가 메커니즘 구현, one.png 해상도 변경
  * */
 
 import javax.swing.*;
@@ -20,8 +17,8 @@ public class playScreen extends JFrame{
     Image pipeUp = imageTool.getImage("resource/Images/PipeImages/pipeUp.png");
     Image buffImg;
     Graphics buffG;
-    boolean runCheck = false;//클릭시 run.start()가 한번만 호출되도록
-    int[] randomIndex(){
+    boolean runCheck = false;//클릭시 run.start()가 한번만 호출되도록 확인
+    int[] randomIndex(){ // 랜덤으로 인덱스 번호를 선택
         int[] random= new int[3];
         for(int i =0; i < 3;i++){
             random[i] = (int)(Math.random()*3);
@@ -35,6 +32,7 @@ public class playScreen extends JFrame{
     }
     int[] index = randomIndex();
     int posX[] = {80, 180, 280};
+    int score = 0;
 
     //위아래 한 세트의 3종류의 파이프 장애물 구현 gameObject 배열 생성해서 초기값 입력
     // 1 2 3 순으로 중단, 상단, 하단 장애물
@@ -51,9 +49,12 @@ public class playScreen extends JFrame{
 
             };
 
-    gameObject titleObjectReady = new gameObject(30, 50,0,0,getReadyTitle);
+    gameObject titleObjectReady = new gameObject(30, 70,0,0,getReadyTitle);
     gameObject bird = new gameObject(30,120,12,17,birdImage);
 
+    //점수 이미지
+    scoreObject score1place = new scoreObject(120,40);
+    scoreObject score2place = new scoreObject(100,40);
 
     public playScreen(){
         setTitle("test");
@@ -82,7 +83,7 @@ public class playScreen extends JFrame{
     public void paint(Graphics g) {
         buffImg = createImage(getWidth(),getHeight());//버퍼링 이미지
         buffG = buffImg.getGraphics();
-        update(g);
+        update(g); //호출
 
     }
     public void update(Graphics g){
@@ -90,7 +91,7 @@ public class playScreen extends JFrame{
         //버퍼링에 그리기
         buffG.drawImage(background_sky,0,0,this);
 
-        buffG.drawImage(pipeDown,pipeDownSide[0].x,pipeDownSide[0].y,this);
+        buffG.drawImage(pipeDown,pipeDownSide[0].x,pipeDownSide[0].y,this); //이미지는 하나만 사용하기에 개인으로 주지않음 좌표는 개개인
         buffG.drawImage(pipeDown,pipeDownSide[1].x,pipeDownSide[1].y,this);
         buffG.drawImage(pipeDown,pipeDownSide[2].x,pipeDownSide[2].y,this);
 
@@ -100,7 +101,10 @@ public class playScreen extends JFrame{
         buffG.drawImage(pipeUp,pipeUpSide[1].x,pipeUpSide[1].y,this);
         buffG.drawImage(pipeUp,pipeUpSide[2].x,pipeUpSide[2].y,this);
 
-        buffG.drawImage(getReadyTitle,titleObjectReady.x, titleObjectReady.y, this);
+        buffG.drawImage(score1place.getImage(), score1place.x, score1place.y,this);
+        buffG.drawImage(score2place.getImage(), score2place.x, score2place.y,this);
+
+        buffG.drawImage(getReadyTitle,titleObjectReady.x, titleObjectReady.y, this); //ready 타이틀 띄우기
         buffG.drawImage(birdImage, bird.x,bird.y,this);
         //버퍼링에 그린 것을 출력
         g.drawImage(buffImg,0,0,this);
@@ -113,11 +117,11 @@ public class playScreen extends JFrame{
             try{
                 while(true){
                     bird.y += 1; //중력
-                    pipeUpSide[0].move();// 파이프 움직임 test
+                    pipeUpSide[0].move();// 파이프 움직임
                     pipeDownSide[0].move();
-                    pipeUpSide[1].move();// 파이프 움직임 test
+                    pipeUpSide[1].move();// 파이프 움직임
                     pipeDownSide[1].move();
-                    pipeUpSide[2].move();// 파이프 움직임 test
+                    pipeUpSide[2].move();// 파이프 움직임
                     pipeDownSide[2].move();
                     //위쪽 파이프 하나만 검사해서 맵밖으로 넘어가면 앞으로 재배치
                     if(pipeUpSide[0].x == -26){
@@ -132,6 +136,20 @@ public class playScreen extends JFrame{
                         pipeUpSide[2].relocation();
                         pipeDownSide[2].relocation();
                     }
+                    if(pipeUpSide[0].x == bird.x){
+                        score++;
+                    }
+                    if(pipeUpSide[1].x == bird.x){
+                        score++;
+
+                    }
+                    if(pipeUpSide[2].x == bird.x){
+                        score++;
+                    }
+                    score1place.getScore(score);
+                    score1place.setScore1place();
+                    score2place.getScore(score);
+                    score2place.setScore2place();
                     repaint();
                     Thread.sleep(19);
                 }

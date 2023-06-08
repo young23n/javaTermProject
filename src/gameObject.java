@@ -10,6 +10,7 @@ public class gameObject {
         int high;
         int width;
         Image img;
+        gameObject(){}
         gameObject(int x, int y, int high, int width, Image img){
             this.x = x;
             this.y = y;
@@ -17,6 +18,7 @@ public class gameObject {
             this.width = width;
             this.img = img;
         }
+
     /**
      * 반복적인 호출을 통해 파이프 개체를 움직이는 용도
      */
