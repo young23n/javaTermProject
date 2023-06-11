@@ -1,5 +1,5 @@
 /*
-* @todo game object 관리, 충돌 관리
+* @todo game object 관리, 위치 관리
 * */
 import java.awt.*;
 
@@ -32,7 +32,5 @@ public class gameObject {
     void relocation(){
         x = 283;
     }
-
-
 }
 

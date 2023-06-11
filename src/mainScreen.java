@@ -35,7 +35,7 @@ public class mainScreen extends JFrame{
             @Override
             public void mouseClicked(MouseEvent e) {
                 playScreen play = new playScreen();
-                setVisible(false);// 나중에 완전 종료 or 다시 시작 구현시 복구용으로 사용
+                setVisible(false);// 나중에 완전 종료 or 다시 시작 구현시 복구용으로 수정
             }
         });
 
