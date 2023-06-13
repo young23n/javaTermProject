@@ -2,7 +2,6 @@
  * @todo 천장 구현, 게임오버 메커니즘 구현
  * @todo pipe 객체에 high width 값이 반대로 입력된 것 수정
  * */
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -38,13 +37,13 @@ public class playScreen extends JFrame{
 
     //위아래 한 세트의 3종류의 파이프 장애물 구현 gameObject 배열 생성해서 초기값 입력
     // 1 2 3 순으로 중단, 상단, 하단 장애물
-    gameObject[] pipeUpSide = { // 원인 찾음 길이와 넓이 설정이 반대로 되어있었음 충돌 판정이 이상한 원인
+    gameObject[] pipeUpSide = {
             new gameObject(posX[index[0]],-60,160,26,pipeUp),
             new gameObject(posX[index[1]],-100,160,26,pipeUp),
             new gameObject(posX[index[2]],-40,160,26,pipeUp),
 
             };
-    gameObject[] pipeDownSide = { // 원인 찾음 길이와 넓이 설정이 반대로 되어있었음 충돌 판정이 이상한 원인
+    gameObject[] pipeDownSide = {
             new gameObject(posX[index[0]],150,160,26,pipeDown),
             new gameObject(posX[index[1]],110,160,26,pipeDown),
             new gameObject(posX[index[2]],170,160,26,pipeDown),
@@ -63,8 +62,12 @@ public class playScreen extends JFrame{
 
     int jumpScale = 15;
 
+    Sound sound = new Sound();
+
     public playScreen(){
-        setTitle("test");
+        sound.setWingSound();
+        sound.loadSound(sound.PLAY_BACKGOUND,true);
+        setTitle("Flappy Bird");
         setResizable(false);
         setSize(144,256);
         setVisible(true); // 프레임 보이기;
@@ -75,10 +78,12 @@ public class playScreen extends JFrame{
         c.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {//클릭시 bird 상승 & 게임 진행
+                sound.playWingSound();
                 if(runCheck == false){
                     run.start();
                     titleObjectReady.x = 300;// 위치 변경으로 타이틀 숨기기
                     runCheck = true;
+                   
                 }
                 bird.y -= jumpScale;
             }
@@ -161,15 +166,19 @@ public class playScreen extends JFrame{
                     }
                     gameOverCheck = gameover.gameoverCheck; // 저장된 값을 받으니 해결됨 왜 함수로 받으면 마지막 것만 작동하는지 이해 못함
 
-                    if(bird.y < 40){ // 천장 기능특정 높이에서 점프 크기를 0으로 만듬
+                    if(bird.y < 40){ // 천장 기능,특정 높이에서 점프 수치를 0으로 만듬
                         jumpScale = 0;
                     }
                     else{
                         jumpScale = 15;
                     }
 
+
+
                     if(gameOverCheck){
                         jumpScale = 0; // 점프 크기 제거 클릭에 반응하지 못하게함
+                        sound.stopSound();
+                        sound.loadSound(sound.GAME_OVER,false);
                         // 점수 저장
                         interrupt();}
                     Thread.sleep(19);

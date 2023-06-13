@@ -1,6 +1,6 @@
 /*
  *
- * @todo 메인 화면에서 버튼으로 플레이 화면으로 이동할 수 있도록 버튼기능 구현(임시)
+ * @todo 배경음악 삽입
  * */
 import javax.swing.*;
 import java.awt.*;
@@ -12,9 +12,14 @@ public class mainScreen extends JFrame{
     ImageIcon startButtonImage = new ImageIcon("resource/Images/ButtonImages/startButton.png");
     Image backgroundImage = imageTool.getImage("resource/Images/BackGround.png");
     Image TitleImage = imageTool.getImage("resource/Images/TitleImage/FlappyBirdTitle.png");
+    Sound sound = new Sound();
 
     JPanel panel = new DrawBackground();
     public mainScreen(){
+        sound.setWingSound();
+        //배경음 재생
+        sound.loadSound(sound.MAIN_BACKGROUND,true);
+
         setTitle("Flappy Bird");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);//창의 크기 변경을 불가능하게 함
@@ -31,11 +36,13 @@ public class mainScreen extends JFrame{
         //이미지 형식에 맞게 설정
         startB.setSize(52,29);
         startB.setLocation(40, 140);
-        startB.addMouseListener(new MouseAdapter() {//게임화면으로 바꾸기
+        startB.addMouseListener(new MouseAdapter() {//게임 화면으로 바꾸기
             @Override
             public void mouseClicked(MouseEvent e) {
+                sound.stopSound();
+                sound.playWingSound();
                 playScreen play = new playScreen();
-                setVisible(false);// 나중에 완전 종료 or 다시 시작 구현시 복구용으로 수정
+                dispose();
             }
         });
 
