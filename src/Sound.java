@@ -10,10 +10,10 @@ public class Sound {
     private Clip clip;
     private Clip wingClip;
     AudioInputStream audioStream;
-    File MAIN_BACKGROUND = new File("resource/sounds/MainScreenSound.wav");
-    File PLAY_BACKGOUND = new File("resource/sounds/playScreenSound.wav");
-    private File WING = new File("resource/sounds/wingSound.wav");
-    File GAME_OVER = new File("resource/sounds/gameOverSound.wav");
+    final File MAIN_BACKGROUND = new File("resource/sounds/MainScreenSound.wav");
+    final File PLAY_BACKGOUND = new File("resource/sounds/playScreenSound.wav");
+    private final File WING = new File("resource/sounds/wingSound.wav");
+    final File GAME_OVER = new File("resource/sounds/gameOverSound.wav");
 
     /**
      * 배경음 재생

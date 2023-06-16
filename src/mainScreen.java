@@ -13,7 +13,6 @@ public class mainScreen extends JFrame{
     Image backgroundImage = imageTool.getImage("resource/Images/BackGround.png");
     Image TitleImage = imageTool.getImage("resource/Images/TitleImage/FlappyBirdTitle.png");
     Sound sound = new Sound();
-
     JPanel panel = new DrawBackground();
     public mainScreen(){
         sound.setWingSound();
@@ -39,7 +38,7 @@ public class mainScreen extends JFrame{
         startB.addMouseListener(new MouseAdapter() {//게임 화면으로 바꾸기
             @Override
             public void mouseClicked(MouseEvent e) {
-                sound.stopSound();
+                sound.stopSound(); // 현재 재생되는 사운드 종료
                 sound.playWingSound();
                 playScreen play = new playScreen();
                 dispose();
